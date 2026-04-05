@@ -1,0 +1,63 @@
+{
+  "obsidian_folders": {
+    "研发": "技术学习笔记",
+    "AI": "AI 相关笔记", 
+    "商业": "商业相关笔记",
+    "架构": "架构设计笔记",
+    "日记": "日记（对应 Logseq journals）"
+  },
+  "category_mapping": {
+    "Vue": {
+      "keywords": ["Vue", "vue", "Vuex", "Pinia", "Vue-Router", "Composition"],
+      "folder": "研发",
+      "description": "Vue 框架相关笔记"
+    },
+    "React": {
+      "keywords": ["React", "react", "Redux", "Hooks"],
+      "folder": "研发",
+      "description": "React 框架相关笔记"
+    },
+    "构建工具": {
+      "keywords": ["Webpack", "webpack", "Rollup", "Vite", "构建", "工程化", "Loader", "Plugin"],
+      "folder": "研发",
+      "description": "构建工具相关笔记"
+    },
+    "Node": {
+      "keywords": ["Node", "node", "Koa", "koa", "Express", "express", "NPM", "npm", "SSR", "Serverless"],
+      "folder": "研发",
+      "description": "Node.js 后端相关笔记"
+    },
+    "TypeScript": {
+      "keywords": ["TS", "TypeScript", "typescript"],
+      "folder": "研发",
+      "description": "TypeScript 相关笔记"
+    },
+    "前端基础": {
+      "keywords": ["HTML", "CSS", "JS", "ES6", "Canvas", "BEM", "Promise", "Shell", "Git"],
+      "folder": "研发",
+      "description": "前端基础知识笔记"
+    },
+    "面试": {
+      "keywords": ["面经", "面试", "STAR法则", "HR"],
+      "folder": "研发",
+      "description": "面试相关笔记"
+    },
+    "AI": {
+      "keywords": ["AI", "GPT", "LLM", "机器学习", "深度学习"],
+      "folder": "AI",
+      "description": "AI 相关笔记"
+    },
+    "日记": {
+      "keywords": [],
+      "folder": "日记",
+      "is_journal": true,
+      "description": "日记文件（从 journals 目录迁移）"
+    }
+  },
+  "default_folder": "",
+  "rules": {
+    "match_first_keyword": true,
+    "case_sensitive": false,
+    "skip_prefix_numbers": true
+  }
+}

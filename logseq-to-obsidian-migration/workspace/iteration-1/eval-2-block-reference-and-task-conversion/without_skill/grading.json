@@ -1,0 +1,20 @@
+{
+  "run_id": "eval-2-without_skill",
+  "expectations": [
+    {
+      "text": "块引用转换",
+      "passed": true,
+      "evidence": "输出使用 `[^uuid]` 格式（脚注风格），也是有效的 Obsidian 格式"
+    },
+    {
+      "text": "任务状态转换",
+      "passed": true,
+      "evidence": "原文件无 TODO/DONE 任务，处理正确"
+    },
+    {
+      "text": "id属性移除",
+      "passed": true,
+      "evidence": "输出中不包含 `id::` 行"
+    }
+  ]
+}

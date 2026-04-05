@@ -1,0 +1,20 @@
+{
+  "run_id": "eval-1-with_skill",
+  "expectations": [
+    {
+      "text": "标题转换正确",
+      "passed": true,
+      "evidence": "输出包含 `## 一、vue-cli` 和 `## 二、Vite`，大纲标题正确转为二级标题"
+    },
+    {
+      "text": "列表项保留",
+      "passed": true,
+      "evidence": "输出包含 `- 指令：vue create xxxx` 等列表项"
+    },
+    {
+      "text": "图片路径转换",
+      "passed": true,
+      "evidence": "图片路径为 `assets/image_1727439516609_0.png`，已移除 `../`"
+    }
+  ]
+}

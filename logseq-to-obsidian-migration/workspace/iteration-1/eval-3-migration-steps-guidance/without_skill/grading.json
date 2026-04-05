@@ -1,0 +1,20 @@
+{
+  "run_id": "eval-3-without_skill",
+  "expectations": [
+    {
+      "text": "提及备份步骤",
+      "passed": true,
+      "evidence": "「在开始迁移之前，**务必**创建 Logseq 仓库的完整备份」"
+    },
+    {
+      "text": "提及格式转换规则",
+      "passed": true,
+      "evidence": "列出待办事项、块引用、标签、属性等格式转换规则"
+    },
+    {
+      "text": "提及资源迁移",
+      "passed": true,
+      "evidence": "「步骤 4：迁移资源文件」说明 assets 复制"
+    }
+  ]
+}

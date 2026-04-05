@@ -1,0 +1,22 @@
+{
+  "eval_id": 3,
+  "eval_name": "migration-steps-guidance",
+  "prompt": "我有一个 Logseq 仓库想迁移到 Obsidian，请告诉我具体步骤",
+  "assertions": [
+    {
+      "name": "提及备份步骤",
+      "description": "应提及备份的重要性",
+      "check": "输出中包含「备份」相关内容"
+    },
+    {
+      "name": "提及格式转换规则",
+      "description": "应说明大纲、链接、任务等格式差异",
+      "check": "输出中提及大纲、链接或任务状态转换"
+    },
+    {
+      "name": "提及资源迁移",
+      "description": "应提及 assets/图片等资源的迁移",
+      "check": "输出中提及 assets 或图片迁移"
+    }
+  ]
+}

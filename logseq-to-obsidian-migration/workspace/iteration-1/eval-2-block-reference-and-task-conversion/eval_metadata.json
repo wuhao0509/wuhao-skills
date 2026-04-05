@@ -1,0 +1,22 @@
+{
+  "eval_id": 2,
+  "eval_name": "block-reference-and-task-conversion",
+  "prompt": "转换 pages/一 Vue框架设计.md 文件，注意处理其中的块引用 ((uuid)) 和任务状态 TODO/DONE",
+  "assertions": [
+    {
+      "name": "块引用转换",
+      "description": "`((uuid))` 应转为 `[[页面#^uuid]]` 格式",
+      "check": "输出中包含 `[[一 Vue框架设计#^` 或类似的块引用格式"
+    },
+    {
+      "name": "任务状态转换",
+      "description": "`DONE` 应转为 `- [x]`，`TODO` 应转为 `- [ ]`",
+      "check": "输出中包含 `- [x]` 或 `- [ ]` 格式的任务"
+    },
+    {
+      "name": "id属性移除",
+      "description": "`id:: uuid` 应被移除或处理",
+      "check": "输出中不包含 `id::` 行"
+    }
+  ]
+}

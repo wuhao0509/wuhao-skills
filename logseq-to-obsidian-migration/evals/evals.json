@@ -1,0 +1,26 @@
+{
+  "skill_name": "logseq-to-obsidian-migration",
+  "evals": [
+    {
+      "id": 1,
+      "name": "simple-outline-conversion",
+      "prompt": "帮我将 pages/01 搭建工程.md 这个 Logseq 文件转换为 Obsidian 格式，输出转换后的内容",
+      "expected_output": "转换后的 Markdown 文件，大纲格式转为标准 Markdown 标题",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "block-reference-and-task-conversion",
+      "prompt": "转换 pages/一 Vue框架设计.md 文件，注意处理其中的块引用 ((uuid)) 和任务状态 TODO/DONE",
+      "expected_output": "块引用转为 [[页面#^uuid]] 格式，任务状态转为 checkbox",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "migration-steps-guidance",
+      "prompt": "我有一个 Logseq 仓库想迁移到 Obsidian，请告诉我具体步骤",
+      "expected_output": "提供完整的迁移流程指南",
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "skill_name": "logseq-to-obsidian-migration",
+  "iteration": 1,
+  "timestamp": "2026-03-14T10:30:00Z",
+  "results": [
+    {
+      "eval_id": 1,
+      "eval_name": "simple-outline-conversion",
+      "configurations": [
+        {
+          "name": "with_skill",
+          "pass_rate": 1.0,
+          "passed": 3,
+          "total": 3,
+          "duration_seconds": 15,
+          "total_tokens": 2500
+        },
+        {
+          "name": "without_skill",
+          "pass_rate": 0.33,
+          "passed": 1,
+          "total": 3,
+          "duration_seconds": 12,
+          "total_tokens": 2200
+        }
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "block-reference-and-task-conversion",
+      "configurations": [
+        {
+          "name": "with_skill",
+          "pass_rate": 1.0,
+          "passed": 3,
+          "total": 3,
+          "duration_seconds": 18,
+          "total_tokens": 3500
+        },
+        {
+          "name": "without_skill",
+          "pass_rate": 1.0,
+          "passed": 3,
+          "total": 3,
+          "duration_seconds": 14,
+          "total_tokens": 3100
+        }
+      ]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "migration-steps-guidance",
+      "configurations": [
+        {
+          "name": "with_skill",
+          "pass_rate": 1.0,
+          "passed": 3,
+          "total": 3,
+          "duration_seconds": 10,
+          "total_tokens": 1800
+        },
+        {
+          "name": "without_skill",
+          "pass_rate": 1.0,
+          "passed": 3,
+          "total": 3,
+          "duration_seconds": 8,
+          "total_tokens": 1600
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "with_skill": {
+      "pass_rate": 1.0,
+      "total_passed": 9,
+      "total_assertions": 9
+    },
+    "without_skill": {
+      "pass_rate": 0.78,
+      "total_passed": 7,
+      "total_assertions": 9
+    },
+    "delta": {
+      "pass_rate_improvement": 0.22
+    }
+  }
+}

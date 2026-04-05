@@ -1,0 +1,22 @@
+{
+  "eval_id": 1,
+  "eval_name": "simple-outline-conversion",
+  "prompt": "帮我将 pages/01 搭建工程.md 这个 Logseq 文件转换为 Obsidian 格式，输出转换后的内容",
+  "assertions": [
+    {
+      "name": "标题转换正确",
+      "description": "大纲标题 `- # xxx` 应转为 `## xxx`",
+      "check": "输出中包含 `## 一、vue-cli` 和 `## 二、Vite`"
+    },
+    {
+      "name": "列表项保留",
+      "description": "普通列表项应保留为 `- ` 格式",
+      "check": "输出中包含 `- 指令：vue create xxxx` 或类似列表项"
+    },
+    {
+      "name": "图片路径转换",
+      "description": "`../assets/` 应转为 `assets/`",
+      "check": "输出中图片路径不含 `../`"
+    }
+  ]
+}
