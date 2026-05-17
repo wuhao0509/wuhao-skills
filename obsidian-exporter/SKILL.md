@@ -25,58 +25,34 @@ triggers:
 
 ### 1. 确定目标路径
 
-**路径选择逻辑：**
+**路径选择逻辑（按优先级从高到低）：**
 
 | 用户意图 | 处理方式 |
 |---------|---------|
-| 用户明确指定了路径 | 直接使用用户指定的路径 |
-| 用户说"指定文件夹"、"选择位置"、"另存为"等 | 调起系统文件夹选择对话框 |
-| 用户未提及路径 | 若工作区存在可解析的 `.cursor-obsidian.json`，使用其中 `vaultPath` + `notesSubdir`；否则保存到下方「默认导出路径」 |
+| 用户在对话中明确写出了目标路径 | 直接使用用户指定的路径，不再弹窗 |
+| 用户未提及路径 | **必须**调起系统文件夹选择对话框，由用户当场选择 |
 
-**默认导出路径**：`/Users/guoyiding/Desktop/Obsidian仓库/Cursor Chat`
+> [!IMPORTANT] 不使用任何硬编码的默认导出路径、也不读取任何配置文件
+> 路径来源只有两种：用户在对话中显式给出、或者由用户在系统弹窗中当场选择。绝不要悄悄写入某个预设目录，避免文件被保存到用户意料之外的位置。
 
-> [!TIP] 快速导出
-> 大多数情况下，用户无需关心保存位置，直接使用默认路径即可。如需更改位置，说"指定文件夹"即可调起选择对话框。
+#### 系统文件选择弹窗实现（macOS）
 
-#### 系统文件选择弹窗实现
-
-**macOS（使用 osascript）：**
+使用 `osascript` 调起系统文件夹选择对话框：
 
 ```bash
 # 需要 required_permissions: ["all"] 来绕过沙盒限制
-osascript -e 'POSIX path of (choose folder with prompt "选择 Obsidian Vault 保存位置" default location (POSIX file "/Users/guoyiding/Desktop/Obsidian仓库/Cursor Chat" as alias))'
+# 不指定 default location，由系统决定起始目录（通常是上次选过的位置或用户主目录）
+osascript -e 'POSIX path of (choose folder with prompt "选择 Obsidian Vault 保存位置")'
 ```
 
-**默认打开路径**：弹窗默认打开 `/Users/guoyiding/Desktop/Obsidian仓库/Cursor Chat` 文件夹，用户可以快速导航到常用位置。
-
-**返回格式**：用户选定文件夹的 POSIX 路径字符串，末尾通常带 `/`，例如 `/Users/guoyiding/Desktop/Obsidian仓库/Cursor Chat/` 或用户另选的其他目录。
+**返回格式**：用户选定文件夹的 POSIX 路径字符串，末尾通常带 `/`，例如 `/Users/xxx/Documents/MyVault/`。
 
 **用户取消处理：**
 - 用户点击「取消」时，`osascript` 会返回非零退出码（如 `-128`），表示未选择目录。
-- **默认策略**：视为用户放弃在本次对话中自选目录，**直接回退到上文「默认导出路径」保存**，并在回复中简短说明（例如：「已保存到默认目录 …，若需另存请再说指定文件夹」）。
-- 若用户明确表示不想用默认路径、也不愿再弹窗，再通过对话请其**直接打出目标路径**，或协助创建/编辑 `.cursor-obsidian.json`（见文末配置说明）。
-
-**跨平台约定**：以下 Windows / Linux 示例中，**初始目录**应与「**默认导出路径**」指向同一文件夹；若本机路径不同，将变量或字符串替换为当前机器的绝对路径。
-
-**Windows（使用 PowerShell）：**
-
-```powershell
-Add-Type -AssemblyName System.Windows.Forms
-$folder = New-Object System.Windows.Forms.FolderBrowserDialog
-$folder.Description = "选择 Obsidian Vault 保存位置"
-# 与「默认导出路径」一致，便于从常用目录开始浏览（请按本机实际路径修改）
-$defaultExport = "$env:USERPROFILE\Desktop\Obsidian仓库\Cursor Chat"
-if (Test-Path -LiteralPath $defaultExport) { $folder.SelectedPath = $defaultExport }
-if ($folder.ShowDialog() -eq "OK") { $folder.SelectedPath }
-```
-
-**Linux（使用 zenity）：**
-
-```bash
-# --filename 为起始目录，应与「默认导出路径」一致（请按本机实际路径修改）
-zenity --file-selection --directory --title="选择 Obsidian Vault 保存位置" \
-  --filename="$HOME/Desktop/Obsidian仓库/Cursor Chat/"
-```
+- **正确做法**：不要假装成功，也不要回退到任何硬编码默认目录。直接告知用户「未选择保存位置，已暂停导出」，并请用户二选一：
+  1. 在对话中**直接打出**目标绝对路径（例如 `~/Documents/MyVault/Articles`）；
+  2. 说「重新选」 / 「再来一次」触发再次弹窗。
+- 不要在用户取消后自动重复弹窗，避免骚扰；必须由用户明确表达意愿后再调起。
 
 ### 2. 生成文章
 
@@ -99,14 +75,10 @@ title: 文章标题
 date: YYYY-MM-DD
 description: 一句话摘要（用于 SEO 和社交分享预览）
 tags:
-  - article
   - <技术领域标签>
   - <主题标签>
 author: <作者名>
 reading_time: <预估阅读时长，如 8 min>
-source: Cursor Agent
-project: <项目名>
-status: draft | published
 ---
 ```
 
@@ -305,33 +277,6 @@ if __name__ == "__main__":
 - ❌ 过多的假设（"读者应该已经知道……"）
 - ❌ 没有结论的开放式结尾
 - ❌ 私人日记风格的表述（"今天我学到了……"）
-
-## 配置文件格式（.cursor-obsidian.json）
-
-**与默认导出路径的关系（必读）：**
-
-- 本技能**默认**将文章保存到上文「**默认导出路径**」；用户若在对话里**明确写了别的路径**，以用户路径为准。
-- `.cursor-obsidian.json` 为**可选**：若工作区存在该文件，且用户**既未口述路径、也未要求弹窗选文件夹**，可将 `vaultPath` + `notesSubdir` 解析为保存目录，**覆盖**技能内写的默认导出路径（便于多机器或多 Vault 时统一配置）。
-- 若不存在配置文件或解析失败，继续沿用技能中的「默认导出路径」。
-
-```json
-{
-  "vaultPath": "~/Documents/MyVault",
-  "notesSubdir": "Articles",
-  "defaultTags": ["article"],
-  "dateFormat": "YYYY-MM-DD",
-  "author": "<默认作者名>",
-  "includeReadingTime": true
-}
-```
-
-字段说明：
-- `vaultPath`：Obsidian Vault 的绝对路径或 `~` 相对路径
-- `notesSubdir`：在 Vault 内的存储子目录，默认 `Articles`
-- `defaultTags`：每篇文章自动包含的标签
-- `dateFormat`：日期格式，默认 `YYYY-MM-DD`
-- `author`：默认作者名
-- `includeReadingTime`：是否自动计算阅读时长
 
 ## 示例文章结构
 
